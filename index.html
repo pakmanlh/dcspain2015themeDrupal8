@@ -20,6 +20,7 @@
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/prism.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -169,8 +170,331 @@
 				</section>
 
 				<section>
-					<h1></h1>
+					<section>
+						<h1>Cambios en la capa de theme</h1>
+					</section>
+					<section>
+            <h2 class="minus">Template process layer</h2>
+            <p class="fragment">…es historia!</p>
+            <aside class="notes">
+              <p>5:00 - 8:00</p>
+              <ul>
+                <li>El principal motivo de esta capa era para insertar cadenas en HTML</li>
+                <li>Drupal 8 prefiere el proceso perezoso renderizándolo lo más tarde posible y pudiendo así ser alterado también desde la plantilla directamente.</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2 class="minus">Theme functions</h2>
+            <p class="fragment">…están siendo convertidas a plantillas…<br>
+            <span class="fragment">(y en otros formatos).</span>
+            </p>
+            <p class="fragment">Solamente quedan 12! <a href="http://dgo.to/2348381">http://dgo.to/2348381</a></p>
+            <aside class="notes">
+              <p>8:00 - 11:00</p>
+              <li>Las funciones de theme son tan de Drupal 7</li>
+              <li>El marcado pertenece a las plantillas, no a las variables de tipo String</li>
+              <li>Restan 12 por convertir.</li>
+            </aside>
+          </section>
+
+          <section>
+            <h2 class="plus">Theme suggestion hooks</h2>
+            <small>Drupal 7:</small>
+            <pre><code data-trim class="language-php">
+/**
+ * Implements hook_preprocess_HOOK() for node templates.
+ */
+function MYTHEME_preprocess_node(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'node__' . 'my_first_suggestion';
+  $variables['theme_hook_suggestions'][] = 'node__' . 'my_second_more_specific_suggestion';
+}
+</code></pre>
+
+            <small>Drupal 8:</small>
+            <pre><code data-trim class="language-php">
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for node templates.
+ */
+function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'node__' . 'my_first_suggestion';
+  $suggestions[] = 'node__' . 'my_second_suggestion';
+}
+</code></pre>
+            <aside class="notes">
+              <p>11:00 - 14:00</p>
+              <li>In Drupal 7 you could manipulate theme suggestions during preprocess, but by this point it might already be too late, or you've already done unnecessary preprocessing.</li>
+              <li>Drupal 8 splits out the manipulation of theme hook (template) suggestions into separate hooks.</li>
+              <li>You can see template suggestions in action when we talk about Twig debug in a few minutes.</li>
+            </aside>
+          </section>
+
+                    <section>
+                      <h3>Adiós theme(), hola <br>render arrays</h3>
+                      <small>Drupal 7:</small>
+                      <pre><code class="language-php">
+          $variables['list'] = theme('item_list', array(
+            'items' => $items,
+          ));
+          </code></pre>
+                      <small>Drupal 8:</small>
+                      <pre><code class="language-php">
+          $variables['list'] = [
+            '#theme' => 'item_list',
+            '#items' => $items,
+          ];
+          </code></pre>
+                      <aside class="notes">
+                        <p>14:00 - 16:00</p>
+                        <p>En vez de la variable <strong>list</strong> siendo una cadena de HTML, es un render array que es pasado a la plantilla y renderizado desde allí.</p>
+                      </aside>
+                    </section>
+
 				</section>
+
+				        <section>
+
+				          <section>
+				            <h2>Atributos</h2>
+
+				            <div>
+				              <small>Todos los atributos del HTML:</small>
+				              <pre><code class="language-twig">&lt;div{{ attributes }}&gt;</code></pre>
+				            </div>
+
+				            <div class="fragment current-show">
+				              <small>Cuidado con el primer espacio en blanco:</small>
+				              <pre><code class="language-twig">&lt;div {{ attributes }}&gt;</code></pre>
+				            </div>
+				            <div class="fragment">
+				              <small>Este espacio se sumará quedando un código feo</small>
+				              <pre class="language-twig"><code class="language-twig">&lt;div✖{{ attributes }}&gt;</code></pre>
+				            </div>
+
+				            <div class="fragment">
+				              <small>Dividiendo el atributo class</small>
+				              <pre><code class="language-twig">&lt;div class="myclass {{ attributes.class }}"{{ attributes|without('class') }}&gt;</code></pre>
+				            </div>
+				            <aside class="notes">
+				              <p>16:00 - 19:00</p>
+				              <p>Attributes contain the attributes and also know how to print them properly. If you are printing the entire set of attributes, don't prepend a space.
+				            </aside>
+				          </section>
+
+				          <section>
+				            <h2>Atributos II</h2>
+
+				            <div>
+				              Manipulación de Class:
+				              <pre><code class="language-twig">&lt;div{{ attributes.addClass('hola').removeClass('adiós') }}&gt;</code></pre>
+				            </div>
+
+				            <div class="fragment">
+				              Testing:
+				              <pre><code class="language-twig">{% if attributes.hasClass('field-label-inline') %}
+  {# Realizar algún código personalizado para la etiqueta inline. #}
+{% endif %}</code></pre>
+				            </div>
+				            <aside class="notes">
+				              <p>19:00 - 21:00</p>
+				            </aside>
+				          </section>
+
+				          <section>
+				            <h2>Atributos III</h2>
+
+				            <div>
+				              Establecer un atributo:
+				              <pre><code class="language-twig">&lt;div{{ attributes.setAttribute('id', 'eye-d') }}&gt;</code></pre>
+				            </div>
+
+				            <div>
+				              Borrar un atributo:
+				              <pre><code class="language-twig">&lt;div{{ attributes.removeAttribute('id') }}&gt;</code></pre>
+				            </div>
+				            <aside class="notes">
+				              <p>21:00 - 21:30</p>
+				            </aside>
+				          </section>
+
+				          <section>
+				            <h3>Imprime lo que quieras, cuando quieras</h3>
+
+				            <div>
+				              <div class="fragment l-fifty">
+				                <h4>Drupal 7:</h4>
+				                <pre><code class="language-php">
+// Ocultamos los comentarios y los links
+// para imprimirlos después.
+hide($content['comments']);
+hide($content['links']);
+print render($content);
+// Render llama a show() en el elemento.
+print render($content['links']);
+// Para devolver los enlaces con el contenido.
+show($content['links']);
+// Imprime el contenido con enlaces pero todavía
+// sin comentarios :(
+print render($content);
+</code></pre>
+</div>
+				              <div class="fragment l-fifty">
+				                <h4>Drupal 8:</h4>
+				                <pre><code class="language-twig">{# Imprime el contenido sin comentarios ni enlaces #}
+{{ content|without('comments', 'links') }}
+
+{# Imprime solamente los enlaces #}
+{{ content.links }}
+
+{# Imprime todo sin los comentarios! #}
+{{ content|without('comments') }}
+
+{# Imprime todo YUJU :) #}
+{{ content }}
+</code></pre>
+				              </div>
+
+				            </div>
+				            <aside class="notes">
+				              <p>21:30 - 23:00</p>
+				            </aside>
+				          </section>
+
+
+				        </section>
+
+				        <section>
+
+				          <section class="twig">
+				            <h2 class="plus">Uy sí, y Twig!</h2>
+				            <p class="fragment">Creo que lo habréis notado… 😉</p>
+				            <aside class="notes">
+				              <p>23:00 - 25:00</p>
+				              <ul>
+				                <li>Twig is a flexible, fast, and secure template engine for PHP.</li>
+				                <li>The Twig engine and initial integration code was committed during BADCamp in November 2012.</li>
+				                <li>The conversions of .tpl.php to .html.twig files were committed during DrupalCon Portland in May 2013 and Twig is now the default template engine for Drupal 8.</li>
+				              </ul>
+				            </aside>
+				          </section>
+				          <section>
+				            <small>services.yml:</small>
+				            <pre><code class="language-yaml">parameters:
+  twig.config:
+    debug: true</code></pre>
+            <small>Ejemplo de código:</small>
+            <pre><code data-trim class="language-markup">
+&lt;!-- THEME DEBUG --&gt;
+&lt;!-- THEME HOOK: 'block' --&gt;
+&lt;!-- FILE NAME SUGGESTIONS:
+   * block--bartik-powered.html.twig
+   * block--system-powered-by-block.html.twig
+   * block--system.html.twig
+   x block.html.twig
+--&gt;
+&lt;!-- BEGIN OUTPUT from 'core/modules/block/templates/block.html.twig' --&gt;
+&lt;div class=&quot;block block-system contextual-region&quot; id=&quot;block-bartik-powered&quot; role=&quot;complementary&quot;&gt;
+  &lt;div data-contextual-id=&quot;block:block=bartik_powered:&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;content&quot;&gt;
+    &lt;span&gt;Powered by &lt;a href=&quot;http://drupal.org&quot;&gt;Drupal&lt;/a&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- END OUTPUT from 'core/modules/block/templates/block.html.twig' --&gt;
+</code></pre>
+				            <aside class="notes">
+				              <p>25:00 - 27:00</p>
+				            </aside>
+				          </section>
+
+				          <section>
+				            <h3>Drupal 7.33+ también!!</h3>
+				            <small>settings.php:</small>
+				            <pre><code class="language-php">$conf['theme_debug'] = TRUE;</code></pre>
+				            <small>Example output:</small>
+				            <pre><code data-trim class="language-markup">
+&lt;!-- THEME DEBUG --&gt;
+&lt;!-- CALL: theme('block') --&gt;
+&lt;!-- FILE NAME SUGGESTIONS:
+   * block--system--powered-by.tpl.php
+   * block--system.tpl.php
+   * block--footer.tpl.php
+   x block.tpl.php
+--&gt;
+&lt;!-- BEGIN OUTPUT from 'modules/block/block.tpl.php' --&gt;
+&lt;div id=&quot;block-system-powered-by&quot; class=&quot;block block-system&quot;&gt;
+  &lt;div class=&quot;content&quot;&gt;
+    &lt;span&gt;Powered by &lt;a href=&quot;https://www.drupal.org&quot;&gt;Drupal&lt;/a&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- END OUTPUT from 'modules/block/block.tpl.php' --&gt;
+</code></pre>
+				            <aside class="notes">
+				              <p>27:00 - 28:00</p>
+				            </aside>
+				          </section>
+                  <section>
+                    <h2>Twig magic</h2>
+                    <p><code class="language-twig">{{ sandwich.cheese }}</code></p>
+<pre><code data-trim class="language-php">
+// Valor de un Array.
+$sandwich['cheese'];
+// Propiedad de un objeto.
+$sandwich->cheese;
+// También para el método mágico.
+$sandwich->__isset('cheese'); &amp;&amp; $sandwich->__get('cheese');
+// Para un método de un objeto.
+$sandwich->cheese();
+// Para un objeto obtenido con la convención get.
+$sandwich->getCheese();
+// Objeto is convención método.
+$sandwich->isCheese();
+// Método dinámico.
+$sandwich->__call('cheese');
+</code></pre>
+
+        <aside class="notes">
+          <p>38:00 - 40:00</p>
+          <p>Show Kint demo.</p>
+          <ul>
+            <li>checks if <code>sandwich</code> is an array and <code>cheese</code> a valid element;</li>
+            <li>if not, and if <code>sandwich</code> is an object, checks that <code>cheese</code> is a valid property;</li>
+            <li>if not, and if <code>sandwich</code> is an object, checks that <code>cheese</code> is a valid method;</li>
+            <li>if not, and if <code>sandwich</code> is an object, checks that <code>getBar</code> is a valid method;</li>
+            <li>if not, and if <code>sandwich</code> is an object, checks that <code>isBar</code> is a valid method;</li>
+            <li>if not, returns a <code>null</code> value.</li>
+          </ul>
+        </aside>
+                  </section>
+                  <section id="autoescape" class="title-slide">
+          <h2>Autoescape</h2>
+          <div class="fragment">
+            <pre><code data-trim class="language-php">
+              $user->field_first_name = "&lt;script&gt;alert('XSS')&lt;/script&gt;";
+</code></pre>
+          </div>
+
+          <div>
+            <div class="fragment">
+              <small>Drupal 7:</small>
+              <pre><code data-trim class="language-php">MAL <span>  &lt;?php print $user->field_first_name; ?&gt;</span></code></pre>
+              <pre><code data-trim class="language-php">BIEN <span> &lt;?php print check_plain($user->field_first_name); ?&gt;</span></code></pre>
+            </div>
+            <div class="fragment">
+              <small>Drupal 8:</small>
+              <pre><code data-trim class="language-twig">BIEN <span>{{ user.field_first_name }}</span></code></pre>
+              <pre><code data-trim class="language-twig">MAL <span> {{ user.field_first_name|raw }}</span></code></pre>
+            </div>
+          </div>
+
+        </section>
+				        </section>
+				        <section>
+				        	<section data-background="images/questions.png">
+				        		<h1>That's all folks</h1>
+				        		<h3>¿Preguntas?</h3>
+				        	</section>
+				        </section>
 
 			</div>
 
@@ -184,7 +508,7 @@
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
+				controls: false,
 				progress: true,
 				history: true,
 				center: true,

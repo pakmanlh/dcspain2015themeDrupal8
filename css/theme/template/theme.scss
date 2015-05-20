@@ -167,12 +167,12 @@ body {
 	display: block;
 	position: relative;
 	width: 100%;
-	margin: $blockMargin auto;
+	margin: $blockMargin * 0.2 auto;
 
 	text-align: left;
-	font-size: 0.65em;
+	font-size: 0.45em;
 	font-family: monospace;
-	line-height: 1em;
+	line-height: 1.1em;
 
 	word-wrap: break-word;
 
@@ -222,9 +222,9 @@ body {
 
 .reveal small {
 	display: inline-block;
-	font-size: 0.6em;
+	font-size: 0.8em;
 	line-height: 1.2em;
-	vertical-align: top;
+	vertical-align: bottom;
 }
 
 .reveal small * {
@@ -360,4 +360,14 @@ body {
 			text-shadow: 3px 3px #333;
 		}
 	}
+	.l-fifty {
+		font-size: 0.9em;
+		width: 47%;
+		float: left;
+		margin-right: 0.5em;
+	}
+}
+section.twig {
+  background: rgba(0, 0, 0, 0) url("../../images/twig.png") no-repeat scroll right bottom;
+  height: 400px;
 }
