@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Theming in Drupal 8: un soplo de aire fresco.</title>
+
+		<meta name="description" content="Slides de la charla «Theming in Drupal 8: un soplo de aire fresco.» para la DrupalCamp Spain 2015">
+		<meta name="author" content="Pako Garcia">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/ymbra.css" id="theme">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<span class="hashtag"><i class="fa fa-twitter"></i>#DrupalCampSpain2015</span>
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section class="intro" data-background="images/climate-cold-glacier-iceberg-large.jpg">
+					<h1>Theming in Drupal 8</h1>
+					<h2>«un soplo de aire fresco»</h2>
+				</section>
+
+				<section>
+					<h2>¿Quien soy? ¿De dónde vengo?</h2>
+					<h3>Pako Garcia</h3>
+					<p>
+						<small><a href="http://ymbra.com">Vegan Frontend developer at <img src="images/logo-ymbra.png" class="logo-ymbra"></a><br><a href="http://twitter.com/pakmanlh"> @pakmanlh</a> in the internets</small>
+				</section>
+
+				<section>
+					<h2>¿A todos nos gustan los ponies?</h2>
+					<p>
+						<img src="images/ponie.png" />
+					</p>
+				</section>
+
+				<section>
+					<h2>Recomendaciones del cheff:</h2>
+					<ul>
+					<li><strong>10:30 to 11:30</strong><br> Render API en Drupal 7 & 8 <br> <em>Jose Luis Bellido</em></li>
+					<li><strong>12:00 to 13:00</strong><br> Drupal 8 Frontend for Backenders <br> <em>Lauri Eskola</em></li>
+					</ul>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>Cualquier tiempo pasado fue mejor...</h2>
+						<h3>¿seguro?</h3>
+					</section>
+					<section>
+					    <h1>Divitis</h1>
+					    <h3>Marcado enriquecido <sup>tm</sup></h3>
+					    <pre><code data-trim contenteditable>
+<div class="foo bar baz whatever">
+ <div class="foo bar baz whatever">
+  <div class="foo bar baz whatever">
+   <h1 class="pane-title">Hola! soy el marcado de Drupal</h1>
+   <div class="node node-type node-viewmode-argh">
+    Otro div más, porque no...
+    </div>
+   </div>
+	</div>
+</div>
+					    </code></pre>
+				  </section>
+				  <section>
+					    <h1>sobrecarga css</h1>
+					  </section>
+
+					  <section id="csslove">
+					    <small>27 archivos css en drupal 7 stark</small>
+					    <pre><code data-trim contenteditable class="max">
+<style media="all">
+  @import url("sites/modules/system/system.base.css?mz4mz0");
+  @import url("sites/modules/system/system.menus.css?mz4mz0");
+  @import url("sites/modules/system/system.messages.css?mz4mz0");
+  @import url("sites/modules/system/system.theme.css?mz4mz0");</style>
+<style media="all">
+  @import url("sites/modules/contextual/contextual.css?mz4mz0");
+</style>
+<style media="all">
+  @import url("sites/modules/aggregator/aggregator.css?mz4mz0");
+  @import url("sites/modules/book/book.css?mz4mz0");
+  @import url("sites/modules/comment/comment.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/date/date_api/date.css?mz4mz0");
+  @import url("sites/modules/field/theme/field.css?mz4mz0");
+  @import url("sites/modules/node/node.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/picture/picture_wysiwyg.css?mz4mz0");
+  @import url("sites/modules/poll/poll.css?mz4mz0");
+  @import url("sites/modules/search/search.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/search_krumo/search_krumo.css?mz4mz0");
+  @import url("sites/modules/user/user.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/video_filter/video_filter.css?mz4mz0");
+  @import url("sites/modules/forum/forum.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/views/css/views.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/admin_menu/admin_menu.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/admin_menu/admin_menu.uid1.css?mz4mz0");
+</style>
+<style media="all">
+  @import url("sites/sites/all/modules/contrib/ctools/css/ctools.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/panels/css/panels.css?mz4mz0");
+  @import url("sites/sites/all/modules/contrib/panels/plugins/layouts/twocol_stacked/twocol_stacked.css?mz4mz0");
+  @import url("sites/sites/all/themes/mothership/mothership/templates/panels//mothership-html5page/mothership-html5page.admin.css?mz4mz0");
+</style>
+<style media="all">
+  @import url("sites/themes/stark/layout.css?mz4mz0");
+</style>
+					    </code></pre>
+
+					  </section>
+					  <section>
+					    <h1>sobrecarga css</h1>
+					    <h3>5 classes para cada uno de los campos</h3>
+
+					    <pre><code>
+<div class="field field-something field-even_more another-field-cause-im-drupal">
+    El valor relevante
+</div>
+
+					    </code></pre>
+
+					  </section>
+					  <section>
+					    <h1>y demás lindezas</h1>
+					    <ul>
+					    	<li>Theme functions</li>
+					    	<li>Difícil comprensión para no-expertos</li>
+					    	<li>Poco interés por el CSS</li>
+					    	<li>...</li>
+					    </ul>
+
+					  </section>
+				</section>
+
+				<section>
+					<h2>pero...</h2>
+					<h1>drupal 8 está aquí!</h1>
+					<p class="fragment">
+						...o casi.
+					</p>
+				</section>
+
+				<section>
+					<h1></h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
