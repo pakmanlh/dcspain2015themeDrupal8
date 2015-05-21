@@ -492,12 +492,41 @@ $sandwich->__call('cheese');
           </div>
 
         </section>
+        <section>
+        <h3>Extender «bloques» con Twig</h3>
+        <p><small>Definimos una «zona variante» </small><br><strong>page.html.twig</strong></p>
+<pre><code data-trim class="language-twig">
+{% block variante %}
+{% endblock %}
+</code></pre>
+        </section>
+        <section>
+        <h3>Extender «bloques» con Twig</h3>
+        <p><small>Heredamos toda la página, <br>modificando <strong>solamente</strong> ese trozo </small><br><strong>page--front.html.twig</strong></p>
+<pre><code data-trim class="language-twig">
+{% extends "page.html.twig" %}
+{% block variante %}
+<h4>Contenido específico de la página principal.</h4>
+{% endblock %}
+</code></pre>
+<p><small></small></p>
+        </section>
+        <section>
+        	<h2>Modificar marcado del menu</h2>
+        	<p><small>Usando una <a href="http://twig.sensiolabs.org/doc/tags/macro.html">macro</a> recurrente de Twig en</small> <strong>menu.html.twig</strong></p>
+        	<h3 class="fragment">Ejemplo!</h3>
+        </section>
+        <section>
+        	<h2>Modificar marcado del paginador</h2>
+        	<p><small>Modificando</small> <strong>pager.html.twig</strong></p>
+        	<h3 class="fragment">Ejemplo!</h3>
+        </section>
 				        </section>
 				        <section>
 				        	<section>
 				        		<h1><i class="fa fa-briefcase"></i> Classy</h1>
 				        		<h3>un nuevo base theme <em>amigo</em></h4>
-				        		<aside>
+				        		<aside  class="notes">
 				        			Comentar el motivo por el cual se ha quitado todas las clases de core directamente. Para fomentar la posible escalabilidad futura con otro nuevo classy 2.
 				        		</aside>
 				        	</section>
@@ -505,8 +534,8 @@ $sandwich->__call('cheese');
 				        		<small>Drupal 7</small>
 				        		<h2>Theme Stark</h2>
 				        		<h3 class="fragment">HTML + class="foo"</h3>
-				        		<small>Drupal 8</small>
-				        		<h2 class="fragment">Theme Stark + <i class="fa fa-briefcase"></i> Classy</h2>
+				        		<span class="fragment"><small>Drupal 8</small>
+				        		<h2 >Theme Stark + <i class="fa fa-briefcase"></i> Classy</h2></span>
 				        		<h3 class="fragment">HTML + class="foo"</h3>
 				        	</section>
 				        	<section>
@@ -514,7 +543,7 @@ $sandwich->__call('cheese');
 				        		<h3 class="fragment">Usando solamente <i class="fa fa-bullseye"></i>
  Core</h3>
 				        		<pre class="fragment"><code data-trim class="language-twig"><div> {{{ code }} </div> </code></pre>
-				        		<h3 class="fragment">Con <i class="fa fa-briefcase"></i> Classy</h3>
+				        		<h3 class="fragment">Con <i class="fa fa-briefcase"></i> Classy como Basetheme</h3>
 				        		<pre class="fragment"><code data-trim class="language-twig"><div class="node node—contentype"> {{{ code }} </div> </code></pre>
 				        	</section>
 				        	<section>
@@ -548,6 +577,44 @@ $sandwich->__call('cheese');
 				        			<li>*.breakpoints.yml</li>
 				        			<li>*.theme.yml</li>
 				        		</ul>
+				        		<h3 class="fragment">Ejemplo!</h3>
+				        	</section>
+				        </section>
+				        <section>
+				        	<section>
+				        		<h1>Mejoras en CSS</h1>
+				        		<h3><a href="https://drupal.org/node/1887918">Nueva arquitectura CSS (1887918)</a></h3>
+				        		<pre ><code data-trim class="language-twig">
+.notification {
+  /* Estilos generales para todas las notificaciones. */
+}
+.notification--info {
+  /* Ajustes de color concretos. */
+}				        		</code></pre>
+				        	</section>
+				        	<section>
+				        		<h1>Mejoras en CSS</h1>
+				        		<h3><a href="https://drupal.org/node/1887918">Nueva arquitectura CSS (1887918)</a></h3>
+				        		<pre ><code data-trim class="language-twig">
+/* Componente botón */
+.button {
+  /* estilos */
+}
+/* Clase modificadora del botón */
+.button--primary {
+  /* Modificadores y añadidos. */
+}				        		</code></pre>
+<pre><code>
+<!-- La variante se creará aplicando ambas class, componente y modificador. -->
+<button class="button button--primary">Guardar</button>
+</code></pre>
+				        	</section>
+				        	<section>
+				        		<h1>Mejoras en CSS</h1>
+				        		<h3><a href="https://www.drupal.org/node/1190252">CSSLint como arma (1190252)</a></h3>
+				        		<p>Herramientas para mejorar la calidad del código.</p>
+				        		<p><a href="https://github.com/lewisnyman/drupalcore-frontend-toolkit">Drupal Core Frontend toolkit</a></p>
+				        		<p><a href="http://lewisnyman.co.uk/drupalcore-frontend-toolkit/">Status</a></p>
 				        	</section>
 				        </section>
 				        <section>
