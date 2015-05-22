@@ -40,6 +40,7 @@
 
 		<div class="reveal">
 			<span class="hashtag"><i class="fa fa-twitter"></i>#DrupalCampSpain2015</span>
+			<span class="twitter_account">@pakmanlh</span>
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
@@ -439,23 +440,23 @@ print render($content);
 				          </section>
                   <section>
                     <h2>Twig magic</h2>
-                    <p><code class="language-twig">{{ sandwich.cheese }}</code></p>
 <pre><code data-trim class="language-php">
 // Valor de un Array.
-$sandwich['cheese'];
+$bocadillo['tofu'];
 // Propiedad de un objeto.
-$sandwich->cheese;
+$bocadillo->tofu;
 // También para el método mágico.
-$sandwich->__isset('cheese'); &amp;&amp; $sandwich->__get('cheese');
+$bocadillo->__isset('tofu'); &amp;&amp; $bocadillo->__get('tofu');
 // Para un método de un objeto.
-$sandwich->cheese();
+$bocadillo->tofu();
 // Para un objeto obtenido con la convención get.
-$sandwich->getCheese();
+$bocadillo->getTofu();
 // Objeto is convención método.
-$sandwich->isCheese();
+$bocadillo->isTofu();
 // Método dinámico.
-$sandwich->__call('cheese');
+$bocadillo->__call('tofu');
 </code></pre>
+<p><code class="language-twig">{{ bocadillo.tofu }}</code></p>
 
         <aside class="notes">
           <p>38:00 - 40:00</p>

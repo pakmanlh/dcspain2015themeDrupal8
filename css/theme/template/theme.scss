@@ -23,12 +23,18 @@ body {
 }
 
 .reveal {
-	.hashtag {
+	.hashtag,
+	.twitter_account {
 		font-size: 0.6em;
 		position: absolute;
 		bottom: 0.5em;
+	}
+	.hashtag {
 		left: 0.5em;
 		content: "#DrupalCampSpain2015";
+	}
+	.twitter_account {
+		right: 0.5em;
 	}
 }
 .reveal .slides>section,
