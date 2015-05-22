@@ -291,3 +291,6 @@ section.twig {
 
 .questions {
   background-position: right bottom; }
+
+.config_theme_files li {
+  list-style: none; }

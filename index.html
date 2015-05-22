@@ -48,6 +48,10 @@
 					<h1>Theming in Drupal 8</h1>
 					<h2>«un soplo de aire fresco»</h2>
 				</section>
+				<aside class="notes">
+					comentar que se pretende dar a conocer las ventajas y los avances en la capa de theming en Drupal 8
+					que permitirán hacer la vida a los desarrolladores frontend mucho más fácil.
+				</aside>
 
 				<section>
 					<h2>¿Quien soy? ¿De dónde vengo?</h2>
@@ -203,38 +207,6 @@
               <li>Restan 12 por convertir.</li>
             </aside>
           </section>
-
-          <section>
-            <h2 class="plus">Theme suggestion hooks</h2>
-            <small>Drupal 7:</small>
-            <pre><code data-trim class="language-php">
-/**
- * Implements hook_preprocess_HOOK() for node templates.
- */
-function MYTHEME_preprocess_node(&$variables) {
-  $variables['theme_hook_suggestions'][] = 'node__' . 'my_first_suggestion';
-  $variables['theme_hook_suggestions'][] = 'node__' . 'my_second_more_specific_suggestion';
-}
-</code></pre>
-
-            <small>Drupal 8:</small>
-            <pre><code data-trim class="language-php">
-/**
- * Implements hook_theme_suggestions_HOOK_alter() for node templates.
- */
-function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variables) {
-  $suggestions[] = 'node__' . 'my_first_suggestion';
-  $suggestions[] = 'node__' . 'my_second_suggestion';
-}
-</code></pre>
-            <aside class="notes">
-              <p>11:00 - 14:00</p>
-              <li>In Drupal 7 you could manipulate theme suggestions during preprocess, but by this point it might already be too late, or you've already done unnecessary preprocessing.</li>
-              <li>Drupal 8 splits out the manipulation of theme hook (template) suggestions into separate hooks.</li>
-              <li>You can see template suggestions in action when we talk about Twig debug in a few minutes.</li>
-            </aside>
-          </section>
-
                     <section>
                       <h3>Adiós theme(), hola <br>render arrays</h3>
                       <small>Drupal 7:</small>
@@ -255,6 +227,37 @@ function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variab
                         <p>En vez de la variable <strong>list</strong> siendo una cadena de HTML, es un render array que es pasado a la plantilla y renderizado desde allí.</p>
                       </aside>
                     </section>
+                    <section>
+            <h2 class="plus">Theme suggestion hooks</h2>
+            <small>Drupal 7:</small>
+            <pre class="fragment"><code data-trim class="language-php">
+/**
+ * Implements hook_preprocess_HOOK() for node templates.
+ */
+function MYTHEME_preprocess_node(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'node__' . 'my_first_suggestion';
+  $variables['theme_hook_suggestions'][] = 'node__' . 'my_second_more_specific_suggestion';
+}
+</code></pre>
+
+            <small class="fragment">Drupal 8:</small>
+            <pre class="fragment"><code data-trim class="language-php">
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for node templates.
+ */
+function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'node__' . 'my_first_suggestion';
+  $suggestions[] = 'node__' . 'my_second_suggestion';
+}
+</code></pre>
+            <aside class="notes">
+              <p>11:00 - 14:00</p>
+              <li>In Drupal 7 you could manipulate theme suggestions during preprocess, but by this point it might already be too late, or you've already done unnecessary preprocessing.</li>
+              <li>Drupal 8 splits out the manipulation of theme hook (template) suggestions into separate hooks.</li>
+              <li>You can see template suggestions in action when we talk about Twig debug in a few minutes.</li>
+            </aside>
+          </section>
+
 
 				</section>
 
@@ -264,7 +267,7 @@ function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variab
 				            <h2>Atributos</h2>
 
 				            <div>
-				              <small>Todos los atributos del HTML:</small>
+				              <small>Todos los atributos de la etiqueta:</small>
 				              <pre><code class="language-twig">&lt;div{{ attributes }}&gt;</code></pre>
 				            </div>
 
@@ -277,6 +280,13 @@ function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variab
 				              <pre class="language-twig"><code class="language-twig">&lt;div✖{{ attributes }}&gt;</code></pre>
 				            </div>
 
+				            <aside class="notes">
+				              <p>16:00 - 19:00</p>
+				              <p>Attributes contain the attributes and also know how to print them properly. If you are printing the entire set of attributes, don't prepend a space.
+				            </aside>
+				          </section>
+				          <section>
+				            <h2>Atributos II</h2>
 				            <div class="fragment">
 				              <small>Dividiendo el atributo class</small>
 				              <pre><code class="language-twig">&lt;div class="myclass {{ attributes.class }}"{{ attributes|without('class') }}&gt;</code></pre>
@@ -288,7 +298,7 @@ function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variab
 				          </section>
 
 				          <section>
-				            <h2>Atributos II</h2>
+				            <h2>Atributos III</h2>
 
 				            <div>
 				              Manipulación de Class:
@@ -307,7 +317,7 @@ function MYTHEME_theme_suggestions_node_alter(array &$suggestions, array $variab
 				          </section>
 
 				          <section>
-				            <h2>Atributos III</h2>
+				            <h2>Atributos IV</h2>
 
 				            <div>
 				              Establecer un atributo:
@@ -572,11 +582,11 @@ $bocadillo->__call('tofu');
 				        	</section>
 				        	<section>
 				        		<h2>Archivos de configuración</h2>
-				        		<ul>
-				        			<li>[our_theme].info.yml</li>
-				        			<li>[our_theme].libraries.yml</li>
-				        			<li>[our_theme].breakpoints.yml</li>
-				        			<li>[our_theme].theme.yml</li>
+				        		<ul class="config_theme_files">
+				        			<li class="fragment"><i class="fa fa-info-circle"></i> [our_theme].info.yml</li>
+				        			<li class="fragment"><i class="fa fa-book"></i> [our_theme].libraries.yml</li>
+				        			<li class="fragment"><i class="fa fa-file-photo-o"></i> [our_theme].breakpoints.yml</li>
+				        			<li class="fragment"><i class="fa fa-gears"></i> [our_theme].theme.yml</li>
 				        		</ul>
 				        		<h3 class="fragment">Ejemplo!</h3>
 				        	</section>
